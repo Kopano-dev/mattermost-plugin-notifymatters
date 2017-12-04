@@ -1,0 +1,11 @@
+{
+    "id": "notifymatters",
+    "name": "notifymatters",
+    "description": "Expose Mattermost notifications via postMessage API",
+	"backend": {
+		"executable": "notifymattersd"
+	},
+    "webapp": {
+        "bundle_path": "/static/notifymatters_bundle.js"
+    }
+}
