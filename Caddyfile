@@ -1,0 +1,11 @@
+# Example Caddyfile to use with https://caddyserver.com
+#
+# This is for testing notifymatters. Serves example applications only.
+
+0.0.0.0:8917 {
+	errors stderr
+	log stdout
+
+	tls self_signed
+	root ./www
+}

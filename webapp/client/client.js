@@ -1,15 +1,27 @@
 import request from 'superagent';
 
-/* Add web utilities for interacting with servers here */
-
 export default class Client {
     constructor() {
-        /* Define any class variables here */
-        this.url = 'http://example.com';
+        this.baseURL = '/plugins/notifymatters';
+
+        this.config = null;
     }
 
-    exampleRequest = async () => {
-        return this.doGet(`${this.url}/example`);
+    async withConfig() {
+        if (this.config) {
+            return Promise.resolve(this.config);
+        }
+        return this.getConfig();
+    }
+
+    async getConfig() {
+        return this.doGet(`${this.baseURL}/config`).then((config) => {
+            if (!config) {
+                throw new Error('received empty config');
+            }
+            this.config = config;
+            return config;
+        });
     }
 
     doGet = async (url, headers = {}) => {
