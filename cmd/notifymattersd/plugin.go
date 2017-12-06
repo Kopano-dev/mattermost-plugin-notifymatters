@@ -35,7 +35,7 @@ type Plugin struct {
 // OnActivate implements the Mattermost plugin interface.
 func (p *Plugin) OnActivate(api plugin.API) error {
 	p.api = api
-	if err := p.onConfigurationChange(); err != nil {
+	if err := p.OnConfigurationChange(); err != nil {
 		return err
 	}
 
@@ -51,7 +51,8 @@ func (p *Plugin) config() *Configuration {
 	return p.configuration.Load().(*Configuration)
 }
 
-func (p *Plugin) onConfigurationChange() error {
+// OnConfigurationChange implements the Mattermost plugin interface.
+func (p *Plugin) OnConfigurationChange() error {
 	var configuration Configuration
 	err := p.api.LoadPluginConfiguration(&configuration)
 	p.configuration.Store(&configuration)

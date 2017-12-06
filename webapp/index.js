@@ -16,7 +16,10 @@ class NotifyMattersPlugin {
         this.pendingCache = {};
 
         if (window !== window.parent) {
-            console.log('notifymatters detected frame, enabling postMessage API.');
+            // TODO(longsleep): Add condition which prevent activation when
+            // already activated before. This can happen when the plugin gets
+            // deactivated and activated again in Mattermost.
+            console.log('Notifymatters detected frame, enabling postMessage API.');
 
             window.addEventListener('message', (event) => {
                 this.onMessage(event);
@@ -31,7 +34,7 @@ class NotifyMattersPlugin {
     }
 
     isAllowedOrigin(origin) {
-        if (!this.allowedOrigins) {
+        if (!this.allowedOrigins || !origin) {
             return false;
         }
 
@@ -42,9 +45,6 @@ class NotifyMattersPlugin {
         if (this.allowedOrigins === null) {
             try {
                 const config = await Client.withConfig();
-                if (config.TrustedOrigin === '') {
-                    config.TrustedOrigin = 'https://mose4:8417/'; //XXX(longsleep): Remove hardcoded URL.
-                }
                 this.allowedOrigins = config.TrustedOrigin.split(' ');
                 this.allowedOrigins.push(window.origin); // Always allow self.
             } catch (err) {

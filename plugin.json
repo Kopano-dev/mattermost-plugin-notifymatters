@@ -1,6 +1,6 @@
 {
 	"id": "notifymatters",
-	"name": "notifymatters",
+	"name": "Notifymatters",
 	"description": "Expose Mattermost notifications via postMessage API",
 	"backend": {
 		"executable": "notifymattersd"
