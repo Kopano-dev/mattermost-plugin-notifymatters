@@ -38,7 +38,7 @@ class NotifyMattersPlugin {
             return false;
         }
 
-        return this.allowedOrigins.indexOf(origin);
+        return this.allowedOrigins.indexOf(origin) >= 0;
     }
 
     async onMessage(event) {
@@ -56,11 +56,13 @@ class NotifyMattersPlugin {
 
         if (!this.isAllowedOrigin(event.origin)) {
             // NOTE(longsleep): Check event.origin and ignore if unknown.
+            console.warn('Notifymatters origin not allowed', event.origin, this.allowedOrigins);
             return;
         }
 
         if (!event.data || !event.data.type || event.data.notifymatters > version) {
             // Ignore unknown stuff.
+            console.warn('Notifymatters invalid event data', event.data, version);
             return;
         }
 
@@ -81,6 +83,7 @@ class NotifyMattersPlugin {
 
             if (!('Notification' in window) || typeof Notification.requestPermission !== 'function') {
                 // Unsupported.
+                console.warn('Notifymatters Notification API not supported by browser');
                 return;
             }
 
