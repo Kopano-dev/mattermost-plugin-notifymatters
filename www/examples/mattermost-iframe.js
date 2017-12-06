@@ -27,7 +27,8 @@ window.app = new Vue({
         version: '20171130',
         enabling: null,
         error: null,
-        target: null
+        target: null,
+        notifications: {}
     },
     created: function() {
         console.info('welcome to mattermost-iframe.js');
@@ -50,7 +51,7 @@ window.app = new Vue({
         },
         load: function(event) {
             const target = event.target;
-            console.log('load triggered', target);
+            console.log('load triggered', target, target.getAttribute('src'));
             if (this.enabling !== null) {
                 clearTimeout(this.enabling);
                 this.enabling = null;
@@ -67,18 +68,26 @@ window.app = new Vue({
 
             this.enable();
         },
-        enable: function() {
+        enable: function(retry=true) {
+            if (retry) {
+                this.enabling = setTimeout(() => {
+                    console.warn('retrying to enable notifymatters');
+                    this.enable(false);
+                }, 1000);
+            }
+
+            this.sendMessage('enable', Notification.permission);
+        },
+        sendMessage(cmd, data, ref=null) {
             const {target, version, url} = this;
-
-            this.enabling = setTimeout(() => {
-                console.warn('retrying to enable notifymatters');
-                this.enable();
-            }, 1000);
-
-            target.contentWindow.postMessage({
-                type: 'notifymatters.enable',
+            const payload = {
+                type: 'notifymatters.' + cmd,
+                data,
+                ref,
                 notifymatters: version
-            }, url);
+            };
+
+            target.contentWindow.postMessage(payload, url);
         },
         receiveMessage(event) {
             console.log('receive message', event, this.enabling);
@@ -101,6 +110,35 @@ window.app = new Vue({
                     }
                     console.info('notifymatters initialized - awesome!');
                     break;
+
+                case 'notifymatters.notification.requestPermission':
+                    window.Notification.requestPermission((result) => {
+                        this.sendMessage('ref.resolve', result, event.data.ref);
+                    });
+                    break;
+
+                case 'notifymatters.notification.new': {
+                    const notification = new Notification(event.data.data.title, event.data.data.options);
+                    this.notifications[event.data.data.id] = notification;
+                    notification.onclick = () => {
+                        this.sendMessage('notification.onclick', null, event.data.data.id);
+                    };
+                    notification.onclose = () => {
+                        delete this.notifications[event.data.data.id];
+                        this.sendMessage('notification.onclose', null, event.data.data.id);
+                    };
+                    break;
+                }
+
+                case 'notifymatters.notification.close': {
+                    const notification = this.notifications[event.data.data.id];
+                    if (!notification) {
+                        return;
+                    }
+                    notification.close();
+                    break;
+                }
+
                 default:
                     console.warn('received unknown notifymatters message type', event.data.type);
                     break;

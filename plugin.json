@@ -1,11 +1,21 @@
 {
-    "id": "notifymatters",
-    "name": "notifymatters",
-    "description": "Expose Mattermost notifications via postMessage API",
+	"id": "notifymatters",
+	"name": "notifymatters",
+	"description": "Expose Mattermost notifications via postMessage API",
 	"backend": {
 		"executable": "notifymattersd"
 	},
-    "webapp": {
-        "bundle_path": "/static/notifymatters_bundle.js"
-    }
+	"webapp": {
+		"bundle_path": "/static/notifymatters_bundle.js"
+	},
+	"settings_schema": {
+		"settings": [
+			{
+				"key": "TrustedOrigin",
+				"display_name": "Trusted Origin",
+				"type": "text",
+				"help_text": "The trusted origin which can interact with Notifymatters via postMessage API. Use space for multiple."
+			}
+		]
+	}
 }

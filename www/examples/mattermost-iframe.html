@@ -35,7 +35,7 @@
   </div>
 </section>
 
-<iframe id="main" :src="url" v-on:load="load"></iframe>
+<iframe id="main" v-if="url !== ''" :src="url" v-on:load="load"></iframe>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.min.js" integrity="sha256-Gs0UYwrz/B58FsQggzU+vvCSyG/pewemP4Lssjzv8Ho=" crossorigin="anonymous"></script>
 <script src="common.js"></script>

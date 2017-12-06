@@ -1,9 +1,8 @@
 import request from 'superagent';
 
-export default class Client {
+export default class NotifyMattersClient {
     constructor() {
-        this.baseURL = '/plugins/notifymatters';
-
+        this.url = '/plugins/notifymatters';
         this.config = null;
     }
 
@@ -15,7 +14,7 @@ export default class Client {
     }
 
     async getConfig() {
-        return this.doGet(`${this.baseURL}/config`).then((config) => {
+        return this.doPost(`${this.url}/api/v1/config`, {}).then((config) => {
             if (!config) {
                 throw new Error('received empty config');
             }
@@ -24,10 +23,13 @@ export default class Client {
         });
     }
 
-    doGet = async (url, headers = {}) => {
+    doPost = async (url, body, headers = {}) => {
+        headers['X-Requested-With'] = 'XMLHttpRequest';
+
         try {
             const response = await request.
-                get(url).
+                post(url).
+                send(body).
                 set(headers).
                 type('application/json').
                 accept('application/json');

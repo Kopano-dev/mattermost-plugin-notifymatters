@@ -15,16 +15,14 @@
  *
  */
 
-body, html, #app {
-    height: 100%;
+package main
+
+// A Configuration holds the configuration data.
+type Configuration struct {
+	TrustedOrigin string
 }
 
-#app {
-    display: flex;
-    flex-direction: column;
-}
-
-#main {
-    flex: 1;
-    width: 100%;
+// IsValid returns an error when the accociated configuration is not valid.
+func (c *Configuration) IsValid() error {
+	return nil
 }
