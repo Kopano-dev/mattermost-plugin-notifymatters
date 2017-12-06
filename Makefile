@@ -107,7 +107,7 @@ vendor: glide.lock | $(BASE) ; $(info retrieving dependencies ...)
 # Dist
 
 .PHONY: dist
-dist: ; $(info building dist tarball ...)
+dist: webapp/build/notifymatters_bundle.js bin/notifymattersd plugin.json ; $(info building dist tarball ...)
 	@mkdir -p "dist/${PACKAGE_NAME}-${VERSION}"
 	@cd dist && \
 	cp -avf ../LICENSE.txt "${PACKAGE_NAME}-${VERSION}" && \
