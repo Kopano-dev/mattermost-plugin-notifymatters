@@ -125,7 +125,7 @@ clean: ; $(info cleaning ...)	@
 	@rm -rf $(GOPATH)
 	@rm -rf bin
 	@rm -rf test/test.*
-	@$(MAKE) -C identifier clean
+	@$(MAKE) -C webapp clean
 
 .PHONY: version
 version:
