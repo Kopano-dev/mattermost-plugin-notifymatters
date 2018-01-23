@@ -15,16 +15,13 @@ class NotifyMattersPlugin {
         this.pendingCounter = 0;
         this.pendingCache = {};
 
-        if (window !== window.parent) {
-            // TODO(longsleep): Add condition which prevent activation when
-            // already activated before. This can happen when the plugin gets
-            // deactivated and activated again in Mattermost.
-            console.log('Notifymatters detected frame, enabling postMessage API.');
+        // TODO(longsleep): Add condition which prevent activation when
+        // already activated before. This can happen when the plugin gets
+        // deactivated and activated again in Mattermost.
 
-            window.addEventListener('message', (event) => {
-                this.onMessage(event);
-            }, false);
-        }
+        window.addEventListener('message', (event) => {
+            this.onMessage(event);
+        }, false);
     }
 
     initialize(registerComponents, store) {
