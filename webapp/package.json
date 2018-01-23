@@ -18,6 +18,8 @@
     "babel-preset-stage-0": "6.24.1",
     "eslint": "3.17.1",
     "eslint-plugin-react": "6.10.0",
+    "license-webpack-plugin": "^1.1.1",
+    "uglifyjs-webpack-plugin": "^1.1.6",
     "webpack": "2.2.1"
   },
   "scripts": {

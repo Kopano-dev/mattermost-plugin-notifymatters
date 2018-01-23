@@ -30,7 +30,7 @@ export GOPATH CGO_ENABLED
 # Build
 
 .PHONY: all
-all: fmt lint vendor | $(CMDS) webapp
+all: fmt vendor | $(CMDS) webapp
 
 $(BASE): ; $(info creating local GOPATH ...)
 	@mkdir -p $(dir $@)
@@ -47,15 +47,26 @@ $(CMDS): vendor | $(BASE) ; $(info building $@ ...) @
 
 .PHONY: webapp
 webapp:
-	$(MAKE) -C webapp build
+	$(MAKE) -C webapp js
 
 # Helpers
 
 .PHONY: lint
-lint: vendor | $(BASE) ; $(info running golint ...)	@
-	#@cd $(BASE) && ret=0 && for pkg in $(PKGS); do \
-	#	test -z "$$($(GOLINT) $$pkg | tee /dev/stderr)" || ret=1 ; \
-	#done ; exit $$ret
+lint: go-lint webapp-lint
+
+.PHONY: go-lint
+go-lint: vendor | $(BASE) ; $(info running golint ...)	@
+	@cd $(BASE) && ret=0 && for pkg in $(PKGS); do \
+		test -z "$$($(GOLINT) $$pkg | tee /dev/stderr)" || ret=1 ; \
+	done ; exit $$ret
+
+.PHONY: webapp-lint
+webapp-lint: ; $(info running webapp lint ...)
+	$(MAKE) -C webapp lint
+
+.PHONY: webapp-lint-checkstyle
+webapp-lint-checkstyle: ; $(info running webapp lint checkstyle ...)
+	$(MAKE) -C webapp lint-checkstyle || true
 
 .PHONY: fmt
 fmt: ; $(info running gofmt ...)	@
@@ -91,7 +102,7 @@ $(TEST_XML_TARGETS): test-xml
 test-xml: vendor | $(BASE) ; $(info running $(NAME:%=% )tests ...)	@
 	@mkdir -p test
 	cd $(BASE) && 2>&1 CGO_ENABLED=$(CGO_ENABLED) $(GO) test -timeout $(TIMEOUT)s $(ARGS) -v $(TESTPKGS) | tee test/tests.output
-	$(GO2XUNIT) -fail -input test/tests.output -output test/tests.xml
+	$(shell test -s test/tests.output && $(GO2XUNIT) -fail -input test/tests.output -output test/tests.xml)
 
 # Glide
 

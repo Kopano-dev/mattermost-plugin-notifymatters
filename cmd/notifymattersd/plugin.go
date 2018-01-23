@@ -40,11 +40,8 @@ func (p *Plugin) OnActivate(api plugin.API) error {
 	}
 
 	config := p.config()
-	if err := config.IsValid(); err != nil {
-		return err
-	}
 
-	return nil
+	return config.IsValid()
 }
 
 func (p *Plugin) config() *Configuration {
