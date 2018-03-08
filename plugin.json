@@ -1,7 +1,8 @@
 {
 	"id": "notifymatters",
-	"name": "Notifymatters",
+	"name": "Kopano Notifymatters",
 	"description": "Expose Mattermost notifications via postMessage API",
+	"version": "0.0.0-no-proper-build",
 	"backend": {
 		"executable": "notifymattersd"
 	},

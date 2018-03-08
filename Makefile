@@ -1,4 +1,4 @@
-PACKAGE  = stash.kopano.io/km/notifymatters
+PACKAGE  = stash.kopano.io/km/mattermost-plugin-notifymatters
 PACKAGE_NAME = kopano-$(shell basename $(PACKAGE))
 
 # Tools
@@ -126,6 +126,7 @@ dist: webapp/build/notifymatters_bundle.js bin/notifymattersd plugin.json ; $(in
 	cp -avf ../bin/* "${PACKAGE_NAME}-${VERSION}" && \
 	cp -avr ../webapp/build "${PACKAGE_NAME}-${VERSION}/webapp" && \
 	cp -avr ../plugin.json "${PACKAGE_NAME}-${VERSION}" && \
+	sed -i s/0.0.0-no-proper-build/${VERSION}/g "${PACKAGE_NAME}-${VERSION}/plugin.json" && \
 	tar --owner=0 --group=0 -czvf ${PACKAGE_NAME}-${VERSION}.tar.gz "${PACKAGE_NAME}-${VERSION}" && \
 	cd ..
 
