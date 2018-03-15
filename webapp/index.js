@@ -51,17 +51,18 @@ class NotifyMattersPlugin {
 
         const {version} = this;
 
+        if (!event.data || !event.data.type || !event.data.notifymatters || event.data.notifymatters > version) {
+            // Ignore unknown stuff.
+            console.debug('Notifymatters unknown event data', event.data, version);
+            return;
+        }
+
         if (!this.isAllowedOrigin(event.origin)) {
             // NOTE(longsleep): Check event.origin and ignore if unknown.
             console.warn('Notifymatters origin not allowed', event.origin, this.allowedOrigins);
             return;
         }
 
-        if (!event.data || !event.data.type || event.data.notifymatters > version) {
-            // Ignore unknown stuff.
-            console.warn('Notifymatters invalid event data', event.data, version);
-            return;
-        }
 
         this.processMessage(event);
     }
