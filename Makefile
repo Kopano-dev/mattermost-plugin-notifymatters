@@ -18,6 +18,7 @@ PWD     := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 DATE    ?= $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
 VERSION ?= $(shell git describe --tags --always --dirty --match=v* 2>/dev/null | sed 's/^v//' || \
 			cat $(CURDIR)/.version 2> /dev/null || echo 0.0.0-unreleased)
+VHASH    = $(shell echo $(VERSION) | sha1sum | head -c 8)
 GOPATH   = $(CURDIR)/.gopath
 BASE     = $(GOPATH)/src/$(PACKAGE)
 PKGS     = $(or $(PKG),$(shell cd $(BASE) && env GOPATH=$(GOPATH) $(GO) list ./... | grep -v "^$(PACKAGE)/vendor/"))
@@ -119,14 +120,18 @@ vendor: glide.lock | $(BASE) ; $(info retrieving dependencies ...)
 
 .PHONY: dist
 dist: webapp/build/notifymatters_bundle.js bin/notifymattersd plugin.json ; $(info building dist tarball ...)
+	@rm -rf "dist/${PACKAGE_NAME}-${VERSION}"
 	@mkdir -p "dist/${PACKAGE_NAME}-${VERSION}"
 	@cd dist && \
 	cp -avf ../LICENSE.txt "${PACKAGE_NAME}-${VERSION}" && \
 	cp -avf ../README.md "${PACKAGE_NAME}-${VERSION}" && \
 	cp -avf ../bin/* "${PACKAGE_NAME}-${VERSION}" && \
 	cp -avr ../webapp/build "${PACKAGE_NAME}-${VERSION}/webapp" && \
+	mv -vf "${PACKAGE_NAME}-${VERSION}/webapp/notifymatters_bundle.js" "${PACKAGE_NAME}-${VERSION}/webapp/notifymatters_bundle-${VHASH}.js"  && \
+	mv -vf "${PACKAGE_NAME}-${VERSION}/webapp/notifymatters_bundle.js.map" "${PACKAGE_NAME}-${VERSION}/webapp/notifymatters_bundle-${VHASH}.js.map"  && \
 	cp -avr ../plugin.json "${PACKAGE_NAME}-${VERSION}" && \
 	sed -i s/0.0.0-no-proper-build/${VERSION}/g "${PACKAGE_NAME}-${VERSION}/plugin.json" && \
+	sed -i s/notifymatters_bundle.js/notifymatters_bundle-${VHASH}.js/g "${PACKAGE_NAME}-${VERSION}/plugin.json" && \
 	tar --owner=0 --group=0 -czvf ${PACKAGE_NAME}-${VERSION}.tar.gz "${PACKAGE_NAME}-${VERSION}" && \
 	cd ..
 
