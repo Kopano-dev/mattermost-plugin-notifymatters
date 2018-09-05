@@ -1,17 +1,70 @@
-hash: 3a43416bea2a60a5aefd3b9a89f6b252a03a46010b1ac24718172dbac104f5a6
-updated: 2017-12-04T12:52:58.973556553+01:00
+hash: faa451627ca1d10f322c21adb896f3349c7ff939391dcf19773553b1766aa976
+updated: 2018-09-05T11:02:54.900876093+02:00
 imports:
-- name: github.com/alecthomas/log4go
-  version: 3fbce08846379ec7f4f6bc7fce6dd01ce28fae4c
-  repo: https://github.com/mattermost/log4go.git
+- name: github.com/fsnotify/fsnotify
+  version: c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9
+- name: github.com/go-ini/ini
+  version: d58d458bec3cb5adec4b7ddb41131855eac0b33f
+- name: github.com/golang/protobuf
+  version: aa810b61a9c79d51363740d207bb46cf8e620ed5
+  subpackages:
+  - proto
+  - ptypes
+  - ptypes/any
+  - ptypes/duration
+  - ptypes/timestamp
 - name: github.com/gorilla/websocket
   version: ea4d1f681babbce9545c9c5f3d5194a789c89f5b
-- name: github.com/mattermost/mattermost-server
-  version: ba9237628e0e4d02f20ec87449ec003ba7287fb2
+- name: github.com/hashicorp/go-hclog
+  version: ff2cf002a8dd750586d91dddd4470c341f981fe1
+- name: github.com/hashicorp/go-plugin
+  version: a4620f9913d19f03a6bf19b2f304daaaf83ea130
+- name: github.com/hashicorp/hcl
+  version: ef8a98b0bbce4a65b5aa4c368430a80ddc533168
   subpackages:
+  - hcl/ast
+  - hcl/parser
+  - hcl/printer
+  - hcl/scanner
+  - hcl/strconv
+  - hcl/token
+  - json/parser
+  - json/scanner
+  - json/token
+- name: github.com/hashicorp/yamux
+  version: 3520598351bb3500a49ae9563f5539666ae0a27c
+- name: github.com/jaytaylor/html2text
+  version: 57d518f124b0cf46ea2021f25a01396b3522e6fb
+- name: github.com/magiconair/properties
+  version: c2353362d570a7bfa228149c62842019201cfb71
+- name: github.com/mattermost/mattermost-server
+  version: d2945cdd77bdf1ee03367a0d45624094fb936c19
+  subpackages:
+  - einterfaces
+  - mlog
   - model
   - plugin
-  - plugin/rpcplugin
+  - utils
+  - utils/jsonutils
+  - utils/markdown
+- name: github.com/mattermost/viper
+  version: b5e8006cbee93ec955a89ab31e0e3ce3204f3736
+- name: github.com/mattn/go-runewidth
+  version: ce7b0b5c7b45a81508558cd1dba6bb1e4ddb51bb
+- name: github.com/minio/minio-go
+  version: eccfe95ea2ad1f06cd60d23da95df46687955fea
+  subpackages:
+  - pkg/credentials
+  - pkg/encrypt
+  - pkg/s3signer
+  - pkg/s3utils
+  - pkg/set
+- name: github.com/mitchellh/go-homedir
+  version: 58046073cbffe2f25d425fe1331102f55cf719de
+- name: github.com/mitchellh/go-testing-interface
+  version: a61a99592b77c9ba629d254a693acffaeb4b7e28
+- name: github.com/mitchellh/mapstructure
+  version: f15292f7a699fcc1a38a80977f80a046874ba8ac
 - name: github.com/nicksnyder/go-i18n
   version: ca33e78c8a430e2df435b02f63a3944fa8e9ea11
   subpackages:
@@ -19,17 +72,111 @@ imports:
   - i18n/bundle
   - i18n/language
   - i18n/translation
+- name: github.com/oklog/run
+  version: 6934b124db28979da51d3470dadfa34d73d72652
+- name: github.com/olekukonko/tablewriter
+  version: d4647c9c7a84d847478d890b816b7d8b62b0b279
 - name: github.com/pborman/uuid
   version: e790cca94e6cc75c7064b1332e63811d4aae1a53
 - name: github.com/pelletier/go-toml
-  version: 4e9e0ee19b60b13eb79915933f44d8ed5f268bdd
+  version: c2dbbc24a97911339e01bda0b8cabdbd8f13b602
 - name: github.com/pkg/errors
-  version: f15c970de5b76fac0b59abb32d62c17cc7bed265
-- name: golang.org/x/crypto
-  version: 2faea1465de239e4babd8f5905cc25b781712442
+  version: 816c9085562cd7ee03e7f8188a1cfd942858cded
+- name: github.com/spf13/afero
+  version: 787d034dfe70e44075ccc060d346146ef53270ad
   subpackages:
+  - mem
+- name: github.com/spf13/cast
+  version: 8965335b8c7107321228e3e3702cab9832751bac
+- name: github.com/spf13/jwalterweatherman
+  version: 14d3d4c518341bea657dd8a226f5121c0ff8c9f2
+- name: github.com/spf13/pflag
+  version: 9a97c102cda95a86cec2345a6f09f55a939babf5
+- name: github.com/ssor/bom
+  version: 6386211fdfcf24c0bfbdaceafd02849ed9a8a509
+- name: go.uber.org/atomic
+  version: 1ea20fb1cbb1cc08cbd0d913a96dead89aa18289
+- name: go.uber.org/multierr
+  version: 3c4937480c32f4c13a875a1829af76c98ca3d40a
+- name: go.uber.org/zap
+  version: 67bc79d13d155c02fd008f721863ff8cc5f30659
+  subpackages:
+  - buffer
+  - internal/bufferpool
+  - internal/color
+  - internal/exit
+  - zapcore
+- name: golang.org/x/crypto
+  version: de0752318171da717af4ce24d0a2e8626afaeb11
+  subpackages:
+  - argon2
   - bcrypt
+  - blake2b
   - blowfish
+- name: golang.org/x/net
+  version: c39426892332e1bb5ec0a434a079bf82f5d30c54
+  subpackages:
+  - context
+  - html
+  - html/atom
+  - http/httpguts
+  - http2
+  - http2/hpack
+  - idna
+  - internal/timeseries
+  - trace
+- name: golang.org/x/sys
+  version: 14742f9018cd6651ec7364dc6ee08af0baaa1031
+  subpackages:
+  - cpu
+  - unix
+- name: golang.org/x/text
+  version: 6e3c4e7365ddcc329f090f96e4348398f6310088
+  subpackages:
+  - secure/bidirule
+  - transform
+  - unicode/bidi
+  - unicode/norm
+- name: google.golang.org/genproto
+  version: 383e8b2c3b9e36c4076b235b32537292176bae20
+  subpackages:
+  - googleapis/rpc/status
+- name: google.golang.org/grpc
+  version: 07ef407d991f1004e6c3367c8f452ed9a02f17ff
+  subpackages:
+  - balancer
+  - balancer/base
+  - balancer/roundrobin
+  - codes
+  - connectivity
+  - credentials
+  - encoding
+  - encoding/proto
+  - grpclog
+  - health
+  - health/grpc_health_v1
+  - internal
+  - internal/backoff
+  - internal/channelz
+  - internal/envconfig
+  - internal/grpcrand
+  - internal/transport
+  - keepalive
+  - metadata
+  - naming
+  - peer
+  - resolver
+  - resolver/dns
+  - resolver/passthrough
+  - stats
+  - status
+  - tap
+- name: gopkg.in/alexcesaro/quotedprintable.v3
+  version: 2caba252f4dc53eaf6b553000885530023f54623
+- name: gopkg.in/gomail.v2
+  version: 81ebce5c23dfd25c6c67194b37d3dd3f338c98b1
+- name: gopkg.in/natefinch/lumberjack.v2
+  version: a96e63847dc3c67d17befa69c303767e2f84e54f
 - name: gopkg.in/yaml.v2
-  version: 287cf08546ab5e7e37d55a84f7ed3fd1db036de5
+  version: 5420a8b6744d3b0345ab293f6fcba19c978f1183
 testImports: []

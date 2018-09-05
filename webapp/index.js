@@ -24,12 +24,6 @@ class NotifyMattersPlugin {
         }, false);
     }
 
-    initialize(registerComponents, store) {
-        this.store = store;
-
-        registerComponents({}, {});
-    }
-
     isAllowedOrigin(origin) {
         if (!this.allowedOrigins || !origin) {
             return false;
@@ -62,7 +56,6 @@ class NotifyMattersPlugin {
             console.warn('Notifymatters origin not allowed', event.origin, this.allowedOrigins);
             return;
         }
-
 
         this.processMessage(event);
     }
@@ -196,4 +189,4 @@ class NotificationDelegate {
     }
 }
 
-global.window.plugins['notifymatters'] = plugin;
+window.registerPlugin('notifymatters', plugin);

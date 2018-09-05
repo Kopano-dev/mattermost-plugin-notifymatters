@@ -20,48 +20,27 @@ package main
 import (
 	"encoding/json"
 	"net/http"
-	"sync/atomic"
 
 	"github.com/mattermost/mattermost-server/plugin"
 )
 
 // Plugin defines the Mattermost plugin interface.
 type Plugin struct {
-	api plugin.API
+	plugin.MattermostPlugin
 
-	configuration atomic.Value
+	// Configuration parameters
+	TrustedOrigin string
 }
 
 // OnActivate implements the Mattermost plugin interface.
-func (p *Plugin) OnActivate(api plugin.API) error {
-	p.api = api
-	if err := p.OnConfigurationChange(); err != nil {
-		return err
-	}
+func (p *Plugin) OnActivate() error {
+	// TODO: Add configuration validation
 
-	config := p.config()
-
-	return config.IsValid()
+	return nil
 }
 
-func (p *Plugin) config() *Configuration {
-	return p.configuration.Load().(*Configuration)
-}
-
-// OnConfigurationChange implements the Mattermost plugin interface.
-func (p *Plugin) OnConfigurationChange() error {
-	var configuration Configuration
-	err := p.api.LoadPluginConfiguration(&configuration)
-	p.configuration.Store(&configuration)
-	return err
-}
-
-func (p *Plugin) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	config := p.config()
-	if err := config.IsValid(); err != nil {
-		http.Error(rw, "This plugin is not configured.", http.StatusNotImplemented)
-		return
-	}
+func (p *Plugin) ServeHTTP(c *plugin.Context, rw http.ResponseWriter, req *http.Request) {
+	// TODO: Add configuration validation
 
 	switch path := req.URL.Path; path {
 	case "/api/v1/config":
@@ -80,7 +59,7 @@ func (p *Plugin) handleConfig(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	config := p.config()
+	config := Configuration{p.TrustedOrigin}
 
 	rw.Header().Set("Content-Type", "application/json")
 	rw.WriteHeader(http.StatusOK)

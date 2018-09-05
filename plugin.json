@@ -1,13 +1,13 @@
 {
 	"id": "notifymatters",
 	"name": "Kopano Notifymatters",
-	"description": "Expose Mattermost notifications via postMessage API",
+	"description": "Expose Mattermost notifications via postMessage API for Mattermost 5.2+",
 	"version": "0.0.0-no-proper-build",
 	"backend": {
 		"executable": "notifymattersd"
 	},
 	"webapp": {
-		"bundle_path": "/static/notifymatters_bundle.js"
+		"bundle_path": "webapp/notifymatters_bundle.js"
 	},
 	"settings_schema": {
 		"settings": [

@@ -1,7 +1,6 @@
 package: stash.kopano.io/km/notifymatters
 import:
 - package: github.com/mattermost/mattermost-server
-  version: ~4.4.2
+  version: ~5.2.0
   subpackages:
   - plugin
-  - plugin/rpcplugin

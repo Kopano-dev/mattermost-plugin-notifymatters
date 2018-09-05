@@ -21,8 +21,3 @@ package main
 type Configuration struct {
 	TrustedOrigin string
 }
-
-// IsValid returns an error when the accociated configuration is not valid.
-func (c *Configuration) IsValid() error {
-	return nil
-}
