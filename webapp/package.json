@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Expose Mattermost notifications via postMessage API",
   "dependencies": {
+    "deduplicate": "^1.0.0",
     "mattermost-redux": "1.0.1",
     "prop-types": "15.5.10",
-    "superagent": "3.5.2"
+    "superagent": "3.7.0"
   },
   "devDependencies": {
     "babel-core": "6.25.0",
